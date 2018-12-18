@@ -1,45 +1,30 @@
 .container {
-	background-color: grey;
+	background-color: lightgrey;
   	margin: auto;
   	padding: 30px;
-  	width: 40%;
+  	width: 60%;
   	font-size: 2vw;
-	color: white;
 	overflow: auto;
 }
-span {
- width: 85%;
- float:left;
+span.right {
+text-indent: 12em;
 }
 
-.right{
- width: 15%;
- float:right;
- color: red;
-}
+span.left {
+	}
 
-button {
-	font-size: 1.4vw;
-	color: white;
-	background-color: green;
-  	padding: 5px;
-  	border-radius: 20%;
-  	border-style: none; 
-	margin-right: 7px 
-}
-.word {
-	background-color: yellow;
+li {
+	border-bottom: 1px solid #A5A5A5;
+	margin: 20px;
+	height: 40px;
+	font-size: 2.5vw;
 
 }
-.def {
-	height: 70px;
-	width:90%;
-	z-index: 99;
-}
+
 input {
-	font-size: 1.4vw;
-
+	font-size: 2.5vw;
+	height: 60px;
   	border-style: none; 
-	width:80%;
-
-}/
+	width:90%;
+ 	float:left;
+}

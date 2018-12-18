@@ -70,13 +70,12 @@ class App extends React.Component {
 
 	render(){
 		let displayResults = this.state.results.map((name) =>{
-                        return <li>{name}</li>;
+                        return <li>{name.string} &nbsp; &nbsp; = &nbsp; &nbsp; &nbsp;{name.result}</li>;
                       })
 		return (
 		<div className="container" >
 			<h4>Calculator</h4>
 		<ul>{ displayResults }</ul>
-			<span>
 				<input 
 				type="text" 
 				value={this.state.string} 
@@ -85,13 +84,12 @@ class App extends React.Component {
 				onKeyDown={(e) => {
 					if(e.keyCode == 13){
 					let arr1= this.state.results;
-					arr1.push(this.cal(this.state.string)); 
-			 		this.setState({results:arr1})
+					arr1.push({string: this.state.string, result: this.cal(this.state.string)}); 
+			 		this.setState({results:arr1, string:''})
 			 	}
 				}}
 				/> <br/>
 
-			</span>
 		</div> 
 		)
 	}

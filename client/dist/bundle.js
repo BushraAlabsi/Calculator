@@ -148,7 +148,9 @@
 					return _react2.default.createElement(
 						'li',
 						null,
-						name
+						name.string,
+						' \xA0 \xA0 = \xA0 \xA0 \xA0',
+						name.result
 					);
 				});
 				return _react2.default.createElement(
@@ -164,27 +166,23 @@
 						null,
 						displayResults
 					),
-					_react2.default.createElement(
-						'span',
-						null,
-						_react2.default.createElement('input', {
-							type: 'text',
-							value: this.state.string,
-							onChange: function onChange(e) {
-								_this2.setState({ string: e.target.value });
-							},
-							placeholder: 'Type an expression to be calculated',
-							onKeyDown: function onKeyDown(e) {
-								if (e.keyCode == 13) {
-									var arr1 = _this2.state.results;
-									arr1.push(_this2.cal(_this2.state.string));
-									_this2.setState({ results: arr1 });
-								}
+					_react2.default.createElement('input', {
+						type: 'text',
+						value: this.state.string,
+						onChange: function onChange(e) {
+							_this2.setState({ string: e.target.value });
+						},
+						placeholder: 'Type an expression to be calculated',
+						onKeyDown: function onKeyDown(e) {
+							if (e.keyCode == 13) {
+								var arr1 = _this2.state.results;
+								arr1.push({ string: _this2.state.string, result: _this2.cal(_this2.state.string) });
+								_this2.setState({ results: arr1, string: '' });
 							}
-						}),
-						' ',
-						_react2.default.createElement('br', null)
-					)
+						}
+					}),
+					' ',
+					_react2.default.createElement('br', null)
 				);
 			}
 		}]);
