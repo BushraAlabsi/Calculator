@@ -142,10 +142,49 @@
 		}, {
 			key: 'render',
 			value: function render() {
+				var _this2 = this;
+	
+				var displayResults = this.state.results.map(function (name) {
+					return _react2.default.createElement(
+						'li',
+						null,
+						name
+					);
+				});
 				return _react2.default.createElement(
-					'h1',
-					null,
-					'Hello'
+					'div',
+					{ className: 'container' },
+					_react2.default.createElement(
+						'h4',
+						null,
+						'Calculator'
+					),
+					_react2.default.createElement(
+						'ul',
+						null,
+						displayResults
+					),
+					_react2.default.createElement(
+						'span',
+						null,
+						_react2.default.createElement('input', {
+							type: 'text',
+							value: this.state.string,
+							onChange: function onChange(e) {
+								_this2.setState({ string: e.target.value });
+							},
+							placeholder: 'Type an expression to be calculated',
+							onKeyDown: function onKeyDown(e) {
+								if (e.keyCode == 13) {
+									var arr1 = _this2.state.results;
+									arr1.push(_this2.cal(_this2.state.string));
+									_this2.setState({ results: arr1 });
+								}
+							}
+						}),
+						' ',
+						_react2.default.createElement('br', null)
+					)
 				);
 			}
 		}]);
