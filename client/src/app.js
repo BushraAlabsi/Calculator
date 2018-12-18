@@ -19,30 +19,37 @@ class App extends React.Component {
 			if(operation == '*') return val1 * val2;
 			if(operation == '+') return val1 + val2;
 			if(operation == '-') return val1 - val2;
-			if(operation == '/') return val1 / val2;
+			if(operation == '/') {
+				if(val2 == 0) return "division by 0 is undefined";
+				return val1 / val2;
+			}
 		}
 		let result = 0, arr = [], integer;
 		string = string.replace(/ /g,'');
 		let opertions = {
 			'×' : {symbol:'*',p:2},
-			 '+': {symbol:'+',p:1}, 
-			 '-': {symbol:'-',p:1},
-			 '÷' : {symbol:'/',p:2}
+			'*' : {symbol:'*',p:2},
+			'+':  {symbol:'+',p:1}, 
+			'-':  {symbol:'-',p:1},
+			'÷' : {symbol:'/',p:2},
+			'/' : {symbol:'/',p:2}
 		}
 		while(string.length){
 			if(string[0] == '(')
 				{
-					console.log(string)
-					arr.push(this.cal(string.substring(1,string.lastIndexOf(')'))));
+					let res = this.cal(string.substring(1,string.lastIndexOf(')')));
+			        if (isNaN(res)) return res;
+					arr.push(res);
 					string = string.substring(string.lastIndexOf(')')+1,string.length);
 				}
 				else {
 			integer = parseFloat(string, 10);
+			if(isNaN(integer)) return "unknown operation"
 			arr.push(integer)
 			string = string.slice((''+integer).length, string.length);
 		}
 			if(string[0]){
-				
+					if(!opertions[string[0]]) return "unknown operation"
 						arr.push(opertions[string[0]]);
 						string = string.slice(1);
 				}
@@ -53,6 +60,7 @@ class App extends React.Component {
 			if(arr[index].p >= arr[index+2].p)
 			{
 				let res = operate(arr[index-1],arr[index+1],arr[index].symbol)
+				if (isNaN(res)) return res;
 				arr.splice(index-1, 3);
 				arr.splice(index-1,0,res);
 			}
@@ -60,6 +68,7 @@ class App extends React.Component {
 			else {
 
 				let res = operate(arr[index+1],arr[index+3],arr[index+2].symbol);
+				if (isNaN(res)) return res;
 				arr.splice(index+1, 3);
 				arr.splice(index+1,0,res);
 			}
@@ -84,8 +93,10 @@ class App extends React.Component {
 				onKeyDown={(e) => {
 					if(e.keyCode == 13){
 					let arr1= this.state.results;
-					arr1.push({string: this.state.string, result: this.cal(this.state.string)}); 
-			 		this.setState({results:arr1, string:''})
+					let res =  this.cal(this.state.string)
+				if (isNaN(res)) this.setState({string: this.state.string+ " \n"+res});
+					else {arr1.push({string: this.state.string, result: res}); 
+			 		this.setState({results:arr1, string:''})}
 			 	}
 				}}
 				/> <br/>

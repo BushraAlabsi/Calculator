@@ -6,12 +6,6 @@
   	font-size: 2vw;
 	overflow: auto;
 }
-span.right {
-text-indent: 12em;
-}
-
-span.left {
-	}
 
 li {
 	border-bottom: 1px solid #A5A5A5;

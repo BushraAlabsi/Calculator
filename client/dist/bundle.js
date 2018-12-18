@@ -95,7 +95,10 @@
 					if (operation == '*') return val1 * val2;
 					if (operation == '+') return val1 + val2;
 					if (operation == '-') return val1 - val2;
-					if (operation == '/') return val1 / val2;
+					if (operation == '/') {
+						if (val2 == 0) return "division by 0 is undefined";
+						return val1 / val2;
+					}
 				};
 				var result = 0,
 				    arr = [],
@@ -103,22 +106,26 @@
 				string = string.replace(/ /g, '');
 				var opertions = {
 					'×': { symbol: '*', p: 2 },
+					'*': { symbol: '*', p: 2 },
 					'+': { symbol: '+', p: 1 },
 					'-': { symbol: '-', p: 1 },
-					'÷': { symbol: '/', p: 2 }
+					'÷': { symbol: '/', p: 2 },
+					'/': { symbol: '/', p: 2 }
 				};
 				while (string.length) {
 					if (string[0] == '(') {
-						console.log(string);
-						arr.push(this.cal(string.substring(1, string.lastIndexOf(')'))));
+						var res = this.cal(string.substring(1, string.lastIndexOf(')')));
+						if (isNaN(res)) return res;
+						arr.push(res);
 						string = string.substring(string.lastIndexOf(')') + 1, string.length);
 					} else {
 						integer = parseFloat(string, 10);
+						if (isNaN(integer)) return "unknown operation";
 						arr.push(integer);
 						string = string.slice(('' + integer).length, string.length);
 					}
 					if (string[0]) {
-	
+						if (!opertions[string[0]]) return "unknown operation";
 						arr.push(opertions[string[0]]);
 						string = string.slice(1);
 					}
@@ -127,14 +134,16 @@
 				var index = 1;
 				while (arr.length > 3) {
 					if (arr[index].p >= arr[index + 2].p) {
-						var res = operate(arr[index - 1], arr[index + 1], arr[index].symbol);
+						var _res = operate(arr[index - 1], arr[index + 1], arr[index].symbol);
+						if (isNaN(_res)) return _res;
 						arr.splice(index - 1, 3);
-						arr.splice(index - 1, 0, res);
+						arr.splice(index - 1, 0, _res);
 					} else {
 	
-						var _res = operate(arr[index + 1], arr[index + 3], arr[index + 2].symbol);
+						var _res2 = operate(arr[index + 1], arr[index + 3], arr[index + 2].symbol);
+						if (isNaN(_res2)) return _res2;
 						arr.splice(index + 1, 3);
-						arr.splice(index + 1, 0, _res);
+						arr.splice(index + 1, 0, _res2);
 					}
 				}
 				return operate(arr[0], arr[2], arr[1].symbol);
@@ -176,8 +185,11 @@
 						onKeyDown: function onKeyDown(e) {
 							if (e.keyCode == 13) {
 								var arr1 = _this2.state.results;
-								arr1.push({ string: _this2.state.string, result: _this2.cal(_this2.state.string) });
-								_this2.setState({ results: arr1, string: '' });
+								var res = _this2.cal(_this2.state.string);
+								if (isNaN(res)) _this2.setState({ string: _this2.state.string + " \n" + res });else {
+									arr1.push({ string: _this2.state.string, result: res });
+									_this2.setState({ results: arr1, string: '' });
+								}
 							}
 						}
 					}),
