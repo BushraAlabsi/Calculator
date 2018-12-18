@@ -1,20 +1,17 @@
 const express = require('express');
 
-const bodyParser = require('body-parser');
-
 const path =require('path');
 
 const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
+//user express static middleware to serve static pages
 app.use(express.static(path.join(__dirname)))
 
-
+//serve index.html on "/" route
 app.get('/', function (req, res) {
 res.render("index");	
 });
+
 
 const port = process.env.PORT || 3000;
 

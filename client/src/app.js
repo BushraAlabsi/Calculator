@@ -12,9 +12,10 @@ class App extends React.Component {
 		}
 	}
 
-	cal(string){ 
+	cal(string){
 
-		//credits of this function goes to 200-success and CodeYogi users on stachexchange
+		/* credits of this function goes to 200-success and CodeYogi 
+		users on stachexchange */
 		let findClosingBracketIndex = (str, pos) => {
 			  if (str[pos] != '(') {
 			    throw new Error("No '(' at index " + pos);
@@ -35,6 +36,7 @@ class App extends React.Component {
 			  return -1;    // No matching closing parenthesis
 			}
 
+		//calculates a single operation	
 		let operate = (val1,val2,operation) =>{
 			if(operation == '*') return val1 * val2;
 			if(operation == '+') return val1 + val2;
@@ -44,8 +46,13 @@ class App extends React.Component {
 				return val1 / val2;
 			}
 		}
+
 		let result = 0, arr = [], integer;
+
+		//get rid of all white spaces in the coming string
 		string = string.replace(/ /g,'');
+
+		// define every operation JS symbol and priority
 		let opertions = {
 			'×' : {symbol:'*',p:2},
 			'*' : {symbol:'*',p:2},
@@ -54,6 +61,8 @@ class App extends React.Component {
 			'÷' : {symbol:'/',p:2},
 			'/' : {symbol:'/',p:2}
 		}
+
+		// split the string into an array of digits and operations elements 
 		while(string.length){
 			if(string[0] == '(')
 				{
@@ -76,9 +85,14 @@ class App extends React.Component {
 						string = string.slice(1);
 				}
 		}
+
+		//check if the string has at least one valid operation
 		if(arr.length< 3) return "invalid operation"
+
 		let index = 1;
+
 		while(arr.length > 3){
+			// run out operations by priority 
 			if(arr[index].p >= arr[index+2].p)
 			{
 				let res = operate(arr[index-1],arr[index+1],arr[index].symbol)

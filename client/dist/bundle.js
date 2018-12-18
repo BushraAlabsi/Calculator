@@ -90,7 +90,8 @@
 			key: 'cal',
 			value: function cal(string) {
 	
-				//credits of this function goes to 200-success and CodeYogi users on stachexchange
+				/* credits of this function goes to 200-success and CodeYogi 
+	   users on stachexchange */
 				var findClosingBracketIndex = function findClosingBracketIndex(str, pos) {
 					if (str[pos] != '(') {
 						throw new Error("No '(' at index " + pos);
@@ -111,6 +112,7 @@
 					return -1; // No matching closing parenthesis
 				};
 	
+				//calculates a single operation	
 				var operate = function operate(val1, val2, operation) {
 					if (operation == '*') return val1 * val2;
 					if (operation == '+') return val1 + val2;
@@ -120,10 +122,15 @@
 						return val1 / val2;
 					}
 				};
+	
 				var result = 0,
 				    arr = [],
 				    integer = void 0;
+	
+				//get rid of all white spaces in the coming string
 				string = string.replace(/ /g, '');
+	
+				// define every operation JS symbol and priority
 				var opertions = {
 					'×': { symbol: '*', p: 2 },
 					'*': { symbol: '*', p: 2 },
@@ -131,8 +138,9 @@
 					'-': { symbol: '-', p: 1 },
 					'÷': { symbol: '/', p: 2 },
 					'/': { symbol: '/', p: 2 }
-				};
-				while (string.length) {
+	
+					// split the string into an array of digits and operations elements 
+				};while (string.length) {
 					if (string[0] == '(') {
 						var closingIndex = findClosingBracketIndex(string, 0);
 						if (closingIndex == -1) return "Unbalanced Brackets";
@@ -152,9 +160,14 @@
 						string = string.slice(1);
 					}
 				}
+	
+				//check if the string has at least one valid operation
 				if (arr.length < 3) return "invalid operation";
+	
 				var index = 1;
+	
 				while (arr.length > 3) {
+					// run out operations by priority 
 					if (arr[index].p >= arr[index + 2].p) {
 						var _res = operate(arr[index - 1], arr[index + 1], arr[index].symbol);
 						if (isNaN(_res)) return _res;

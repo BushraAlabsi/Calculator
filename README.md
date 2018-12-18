@@ -9,15 +9,18 @@ This repo is a simple calculator application with the basic operations: adding, 
 # Installation
 
 To run this application:
-clone or download this repo to your local machine 
-from you terminal/command line, within this the repo directory:
+1. clone or download this repo to your local machine 
+2. from you terminal/command line, within this the repo directory run:
 ```
 npm install
+```
+3. run webpack watcher by running:
+```
 npm run dev-react
 ```
-on another tab: 
+3. when dist folder is created inside the client folder, quit webpack watcher by using Ctrl+c then run the following command and keep it running:
 ```
 node server.js
 ```
-
+4. navigate in your browser to localhost:3000 and enjoy calculating :)
 
