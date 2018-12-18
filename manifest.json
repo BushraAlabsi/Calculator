@@ -1,0 +1,16 @@
+{
+  "name": "A Progressive Web Calculator",
+  "short_name": "PWA",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ccc",
+  "theme_color": "#5FAAE5",
+  "icons": [
+  {
+    "src": "/calculator-icon.png",
+    "type": "image/png",
+    "sizes": "144x144"
+  }
+]
+}
