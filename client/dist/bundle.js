@@ -83,13 +83,33 @@
 				results: [],
 				string: ''
 			};
-			console.log(_this.cal('1+7×5-(3÷7+(4+5)-3)÷4×45'));
 			return _this;
 		}
 	
 		_createClass(App, [{
 			key: 'cal',
 			value: function cal(string) {
+	
+				//credits of this function goes to 200-success and CodeYogi users on stachexchange
+				var findClosingBracketIndex = function findClosingBracketIndex(str, pos) {
+					if (str[pos] != '(') {
+						throw new Error("No '(' at index " + pos);
+					}
+					var depth = 1;
+					for (var i = pos + 1; i < str.length; i++) {
+						switch (str[i]) {
+							case '(':
+								depth++;
+								break;
+							case ')':
+								if (--depth == 0) {
+									return i;
+								}
+								break;
+						}
+					}
+					return -1; // No matching closing parenthesis
+				};
 	
 				var operate = function operate(val1, val2, operation) {
 					if (operation == '*') return val1 * val2;
@@ -114,13 +134,15 @@
 				};
 				while (string.length) {
 					if (string[0] == '(') {
-						var res = this.cal(string.substring(1, string.lastIndexOf(')')));
+						var closingIndex = findClosingBracketIndex(string, 0);
+						if (closingIndex == -1) return "Unbalanced Brackets";
+						var res = this.cal(string.substring(1, closingIndex));
 						if (isNaN(res)) return res;
 						arr.push(res);
-						string = string.substring(string.lastIndexOf(')') + 1, string.length);
+						string = string.substring(closingIndex + 1, string.length);
 					} else {
 						integer = parseFloat(string, 10);
-						if (isNaN(integer)) return "unknown operation";
+						if (isNaN(integer)) return "non-numeric inputs";
 						arr.push(integer);
 						string = string.slice(('' + integer).length, string.length);
 					}
@@ -130,7 +152,7 @@
 						string = string.slice(1);
 					}
 				}
-	
+				if (arr.length < 3) return "invalid operation";
 				var index = 1;
 				while (arr.length > 3) {
 					if (arr[index].p >= arr[index + 2].p) {
@@ -153,10 +175,10 @@
 			value: function render() {
 				var _this2 = this;
 	
-				var displayResults = this.state.results.map(function (name) {
+				var displayResults = this.state.results.map(function (name, index) {
 					return _react2.default.createElement(
 						'li',
-						null,
+						{ key: index },
 						name.string,
 						' \xA0 \xA0 = \xA0 \xA0 \xA0',
 						name.result
@@ -186,7 +208,7 @@
 							if (e.keyCode == 13) {
 								var arr1 = _this2.state.results;
 								var res = _this2.cal(_this2.state.string);
-								if (isNaN(res)) _this2.setState({ string: _this2.state.string + " \n" + res });else {
+								if (isNaN(res)) _this2.setState({ string: _this2.state.string + " " + res });else {
 									arr1.push({ string: _this2.state.string, result: res });
 									_this2.setState({ results: arr1, string: '' });
 								}

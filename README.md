@@ -3,6 +3,7 @@
 This repo is a simple calculator application with the basic operations: adding, subtracting, multiplying & divisions, and allows chaining operation with () priorities
 
 # Prerequisites
+
 - NodeJS v5 or higher 
 
 # Installation

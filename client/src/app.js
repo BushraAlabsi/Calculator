@@ -10,10 +10,30 @@ class App extends React.Component {
 			results:[],
 			string:''
 		}
-	console.log(this.cal('1+7×5-(3÷7+(4+5)-3)÷4×45'))
 	}
 
 	cal(string){ 
+
+		//credits of this function goes to 200-success and CodeYogi users on stachexchange
+		let findClosingBracketIndex = (str, pos) => {
+			  if (str[pos] != '(') {
+			    throw new Error("No '(' at index " + pos);
+			  }
+			  let depth = 1;
+			  for (let i = pos + 1; i < str.length; i++) {
+			    switch (str[i]) {
+			    case '(':
+			      depth++;
+			      break;
+			    case ')':
+			      if (--depth == 0) {
+			        return i;
+			      }
+			      break;
+			    }
+			  }
+			  return -1;    // No matching closing parenthesis
+			}
 
 		let operate = (val1,val2,operation) =>{
 			if(operation == '*') return val1 * val2;
@@ -37,24 +57,26 @@ class App extends React.Component {
 		while(string.length){
 			if(string[0] == '(')
 				{
-					let res = this.cal(string.substring(1,string.lastIndexOf(')')));
+					let closingIndex = findClosingBracketIndex(string,0);
+					if(closingIndex == -1 ) return "Unbalanced Brackets"
+					let res = this.cal(string.substring(1,closingIndex));
 			        if (isNaN(res)) return res;
 					arr.push(res);
-					string = string.substring(string.lastIndexOf(')')+1,string.length);
+					string = string.substring(closingIndex+1,string.length);
 				}
-				else {
-			integer = parseFloat(string, 10);
-			if(isNaN(integer)) return "unknown operation"
-			arr.push(integer)
-			string = string.slice((''+integer).length, string.length);
-		}
+			else {
+					integer = parseFloat(string, 10);
+					if(isNaN(integer)) return "non-numeric inputs"
+					arr.push(integer)
+					string = string.slice((''+integer).length, string.length);
+				}
 			if(string[0]){
 					if(!opertions[string[0]]) return "unknown operation"
 						arr.push(opertions[string[0]]);
 						string = string.slice(1);
 				}
-			}
-		
+		}
+		if(arr.length< 3) return "invalid operation"
 		let index = 1;
 		while(arr.length > 3){
 			if(arr[index].p >= arr[index+2].p)
@@ -78,8 +100,8 @@ class App extends React.Component {
 	}
 
 	render(){
-		let displayResults = this.state.results.map((name) =>{
-                        return <li>{name.string} &nbsp; &nbsp; = &nbsp; &nbsp; &nbsp;{name.result}</li>;
+		let displayResults = this.state.results.map((name,index) =>{
+                        return <li key={index}>{name.string} &nbsp; &nbsp; = &nbsp; &nbsp; &nbsp;{name.result}</li>;
                       })
 		return (
 		<div className="container" >
@@ -94,7 +116,7 @@ class App extends React.Component {
 					if(e.keyCode == 13){
 					let arr1= this.state.results;
 					let res =  this.cal(this.state.string)
-				if (isNaN(res)) this.setState({string: this.state.string+ " \n"+res});
+				if (isNaN(res)) this.setState({string: this.state.string+ " "+res});
 					else {arr1.push({string: this.state.string, result: res}); 
 			 		this.setState({results:arr1, string:''})}
 			 	}
