@@ -13,6 +13,14 @@
     <div id="app"></div>
     
     <script src="client/dist/bundle.js"></script>
+    <script type="text/javascript">
+      if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/service-worker.js')
+          .then(() => {
+           console.log('SW registered');
+    });
+}
+    </script>
 
   </body>
 </html>
