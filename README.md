@@ -1,6 +1,6 @@
-# Calculator
+# Progressive Web Calculator
 
-This repo is a simple calculator application with the basic operations: adding, subtracting, multiplying & divisions, and allows chaining operation with () priorities
+This repo is a simple calculator progressive web application with the basic operations: adding, subtracting, multiplying & divisions, and allows chaining operation with () priorities
 
 # Prerequisites
 
